@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from redis_om import get_redis_connection
+from redis_om import get_redis_connection, HashModel
 
 app = FastAPI()
 
@@ -10,11 +10,11 @@ redis = get_redis_connection(
     decode_response=True
 )
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+class Product(HashModel):
+    name: str
+    price: float
+    quantity: int
 
+    class Meta:
+        database = redis
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
