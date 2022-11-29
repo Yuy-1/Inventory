@@ -29,3 +29,7 @@ class Product(HashModel):
 @app.get('/products')
 def all():
     return Product.all_pks()
+
+@app.post('/products')
+def create(product: Product):
+    return product.save()
